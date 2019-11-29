@@ -5,7 +5,7 @@ public abstract class Operator {
 
     protected int priority = 0;
 
-    public abstract double calc(double numberOfCalclate);
+    public abstract double calc(double numberOfCalclate, CalcStack stack);
 
     public Operator setCalclatedNumber(double calculatedNumber) {
     	this.calculatedNumber = calculatedNumber;

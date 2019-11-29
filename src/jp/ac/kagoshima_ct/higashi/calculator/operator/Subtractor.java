@@ -1,5 +1,6 @@
 package jp.ac.kagoshima_ct.higashi.calculator.operator;
 
+import jp.ac.kagoshima_ct.higashi.calculator.CalcStack;
 import jp.ac.kagoshima_ct.higashi.calculator.Operator;
 
 public class Subtractor extends Operator {
@@ -9,7 +10,7 @@ public class Subtractor extends Operator {
     }
 
     @Override
-    public double calc(double numberOfCalclate) {
+    public double calc(double numberOfCalclate, CalcStack stack) {
         return this.calculatedNumber - numberOfCalclate;
     }
 }

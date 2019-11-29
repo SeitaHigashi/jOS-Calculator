@@ -1,7 +1,5 @@
 package jp.ac.kagoshima_ct.higashi.calculator;
 
-import jp.ac.kagoshima_ct.higashi.calculator.Operator;
-
 import java.util.EmptyStackException;
 import java.util.Stack;
 
@@ -14,7 +12,7 @@ public class CalcStack extends Stack<Operator> {
 
             while(wasStacked.getPriority() >= operator.getPriority()) {
                 double calculatedNumber = operator.getCalculatedNumber();
-                calculatedNumber = wasStacked.calc(calculatedNumber);
+                calculatedNumber = wasStacked.calc(calculatedNumber, this);
                 operator.setCalclatedNumber(calculatedNumber);
                 wasStacked = super.pop();
             }
@@ -27,7 +25,7 @@ public class CalcStack extends Stack<Operator> {
 
     public double calc(double numberOfCalclate){
         while(!this.isEmpty()){
-            numberOfCalclate = super.pop().calc(numberOfCalclate);
+            numberOfCalclate = super.pop().calc(numberOfCalclate, this);
         }
         return numberOfCalclate;
     }

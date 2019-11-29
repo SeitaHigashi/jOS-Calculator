@@ -1,8 +1,6 @@
 package jp.ac.kagoshima_ct.higashi;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,13 +13,10 @@ import jp.ac.kagoshima_ct.higashi.button.FuncButton;
 import jp.ac.kagoshima_ct.higashi.button.NumberButton;
 import jp.ac.kagoshima_ct.higashi.button.ZeroButton;
 import jp.ac.kagoshima_ct.higashi.calculator.CalcStack;
-import jp.ac.kagoshima_ct.higashi.calculator.operator.Adder;
+import jp.ac.kagoshima_ct.higashi.calculator.operator.*;
 import jp.ac.kagoshima_ct.higashi.calculator.Operator;
-import jp.ac.kagoshima_ct.higashi.calculator.operator.Divider;
-import jp.ac.kagoshima_ct.higashi.calculator.operator.Multiplier;
-import jp.ac.kagoshima_ct.higashi.calculator.operator.Subtractor;
 
-public class Q0Calculator extends JFrame implements ActionListener {
+public class jOSCalculator extends JFrame implements ActionListener {
 
     private GridBagLayout gridBagLayout;
 
@@ -33,9 +28,9 @@ public class Q0Calculator extends JFrame implements ActionListener {
 
     private String calcNum;
 
-    public Q0Calculator(){
+    public jOSCalculator(){
         stack = new CalcStack();
-        stack.push(new Adder(0.0));
+        stack.push(new Multiplier(1.0));
         calcNum = "0";
         this.gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
@@ -47,6 +42,10 @@ public class Q0Calculator extends JFrame implements ActionListener {
 
     private void initDisplay(){
         label = new JLabel("0");
+        label.setOpaque(true);
+        label.setBackground(new Color(0, 0, 0));
+        label.setForeground(new Color(255, 255, 255));
+        label.setHorizontalAlignment(JLabel.RIGHT);
         addComponents(label, 0, 0, 4, 2);
     }
 
@@ -91,7 +90,7 @@ public class Q0Calculator extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args){
-        new Q0Calculator();
+        new jOSCalculator();
     }
 
     @Override
@@ -130,6 +129,9 @@ public class Q0Calculator extends JFrame implements ActionListener {
                 label.setText(String.valueOf(stack.calc(Double.parseDouble(labelNum))));
                 return;
             case "%":
+                calcNum = String.valueOf(new Percentage(Double.parseDouble(labelNum)).calc(0.0, stack));
+                label.setText(calcNum);
+                return;
             case "AC":
                 stack.clear();
                 label.setText("0");
@@ -145,23 +147,10 @@ public class Q0Calculator extends JFrame implements ActionListener {
         }
         if(calcNum.equals("0") && !lastButton.getText().equals("."))
             calcNum = lastButton.getText();
-        else if(calcNum.matches(".*\\..*") && lastButton.getText().equals("."));
+        else if(calcNum.matches("\\d*\\.\\d*") && lastButton.getText().equals("."));
         else
             calcNum += lastButton.getText();
         label.setText(calcNum);
         System.out.println(stack.size());
-    }
-
-    private void _MultiDiv(Operator calc, String labelNum) {
-    	String stack_str = stack.peek().getClass().toString();
-    	if(stack_str.equals(Multiplier.class.toString()) || stack_str.equals(Divider.class.toString())) {
-    		Double num = stack.pop().calc(Double.parseDouble(labelNum));
-    		stack.push(calc.setCalclatedNumber(num));
-    		label.setText(num.toString());
-    	}else {
-    		stack.push(calc.setCalclatedNumber(Double.parseDouble(labelNum)));
-    	}
-    	calcNum = "0";
-
     }
 }
