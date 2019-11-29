@@ -8,23 +8,23 @@ public abstract class Operator {
     public abstract double calc(double numberOfCalclate, CalcStack stack);
 
     public Operator setCalclatedNumber(double calculatedNumber) {
-    	this.calculatedNumber = calculatedNumber;
-    	return this;
+        this.calculatedNumber = calculatedNumber;
+        return this;
     }
 
-    public double getCalculatedNumber(){
+    public double getCalculatedNumber() {
         return this.calculatedNumber;
     }
 
-    public int getPriority(){
+    public int getPriority() {
         return priority;
     }
 
     public Operator() {
-    	this.calculatedNumber = 0.0;
+        this.calculatedNumber = 0.0;
     }
 
-    public Operator(double calculatedNumber){
+    public Operator(double calculatedNumber) {
         this.calculatedNumber = calculatedNumber;
     }
 }

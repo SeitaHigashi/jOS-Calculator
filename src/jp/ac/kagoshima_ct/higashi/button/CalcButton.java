@@ -2,14 +2,25 @@ package jp.ac.kagoshima_ct.higashi.button;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public abstract class CalcButton extends JButton {
     public CalcButton(String text) {
         super(text);
-        setFont(new Font("Arial", Font.PLAIN, 30));
+        try {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Helvetica.ttf"));
+            font = font.deriveFont(35F);
+            setFont(font);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected abstract void initShape() ;
+    protected abstract void initShape();
+
     protected Shape shape;
 
     protected Color normalColor;
@@ -23,7 +34,8 @@ public abstract class CalcButton extends JButton {
 
     private Graphics2D g;
 
-    @Override public void updateUI() {
+    @Override
+    public void updateUI() {
         super.updateUI();
         setContentAreaFilled(false);
         setFocusPainted(false);
@@ -34,23 +46,24 @@ public abstract class CalcButton extends JButton {
     private void paintFocusAndRollover(Graphics2D g2, Color color) {
         g2.clearRect(0, 0, getWidth(), getHeight());
         g2.setPaint(new GradientPaint(
-                0, 0, color, getWidth() , getHeight() ,
+                0, 0, color, getWidth(), getHeight(),
                 color.brighter(), true));
         g2.fill(shape);
         updateUI();
     }
 
-    @Override protected void paintComponent(Graphics g) {
+    @Override
+    protected void paintComponent(Graphics g) {
         initShape();
         Graphics2D g2 = (Graphics2D) g.create();
         this.g = g2;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setBackground(new Color(0,0,0));
-        if(getModel().isPressed()){
+        g2.setBackground(new Color(0, 0, 0));
+        if (getModel().isPressed()) {
             this.nowColor = this.pressingColor;
             this.nowTextColor = this.normalTextColor;
-        }else if(this.nowColor == this.pressingColor){
+        } else if (this.nowColor == this.pressingColor) {
             this.nowColor = this.pressedColor;
             this.nowTextColor = this.pressedTextColor;
         }
@@ -61,7 +74,9 @@ public abstract class CalcButton extends JButton {
         super.paintComponent(g2);
         g2.dispose();
     }
-    @Override protected void paintBorder(Graphics g) {
+
+    @Override
+    protected void paintBorder(Graphics g) {
         initShape();
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -72,36 +87,38 @@ public abstract class CalcButton extends JButton {
                 RenderingHints.VALUE_ANTIALIAS_OFF);
         g2.dispose();
     }
-    @Override public boolean contains(int x, int y) {
+
+    @Override
+    public boolean contains(int x, int y) {
         initShape();
         return shape == null ? false : shape.contains(x, y);
     }
 
-    public void anotherButtonWasPressed(){
+    public void anotherButtonWasPressed() {
         this.nowColor = this.normalColor;
         this.nowTextColor = this.normalTextColor;
         paintFocusAndRollover(g, this.nowColor);
     }
 
-    public void setNormalColor(Color color){
+    public void setNormalColor(Color color) {
         this.normalColor = color;
         this.nowColor = color;
     }
 
-    public void setPressingColor(Color color){
+    public void setPressingColor(Color color) {
         this.pressingColor = color;
     }
 
-    public void setPressedColor(Color color){
+    public void setPressedColor(Color color) {
         this.pressedColor = color;
     }
 
-    public void  setNormalTextColor(Color color){
+    public void setNormalTextColor(Color color) {
         this.normalTextColor = color;
         this.nowTextColor = color;
     }
 
-    public void setPressedTextColor(Color color){
+    public void setPressedTextColor(Color color) {
         this.pressedTextColor = color;
     }
 
