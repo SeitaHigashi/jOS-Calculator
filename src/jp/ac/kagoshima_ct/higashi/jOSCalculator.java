@@ -9,10 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
-public class jOSCalculator extends JFrame implements ActionListener {
+public class jOSCalculator extends JFrame implements ActionListener , WindowListener {
 
     private GridBagLayout gridBagLayout;
 
@@ -30,7 +33,8 @@ public class jOSCalculator extends JFrame implements ActionListener {
         calcNum = "0";
         this.gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
-        setSize(375, 667);
+        //setSize(375, 667);
+        setSize(272, 484);
         initDisplay();
         initButton();
         setVisible(true);
@@ -39,12 +43,18 @@ public class jOSCalculator extends JFrame implements ActionListener {
     private void initDisplay() {
         Font font = null;
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Helvetica.ttf"));
-            font = font.deriveFont(40F);
+            File fontFile = new File(getClass().getClassLoader().getResource("Helvetica.ttf").toURI().toString());
+            font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            //font = font.deriveFont(getHeight()/1);
         } catch (FontFormatException e) {
-            font = new Font("Arial", Font.PLAIN, 40);
+            e.getStackTrace();
+            font = new Font("Arial", Font.PLAIN, 60);
         } catch (IOException e) {
-            font = new Font("Arial", Font.PLAIN, 40);
+            e.getStackTrace();
+            font = new Font("Arial", Font.PLAIN, 60);
+        } catch (URISyntaxException e) {
+            e.getStackTrace();
+            font = new Font("Arial", Font.PLAIN, 60);
         }
 
         JLabel stretch = new JLabel("");
@@ -74,13 +84,13 @@ public class jOSCalculator extends JFrame implements ActionListener {
             numButton.addActionListener(this);
             addComponents(numButton, i % 3 - 1, 5 - (i - 1) / 3, 1, 1);
         }
-        String funccmd[] = {"/", "*", "-", "+", "="};
+        String funccmd[] = {"\u00f7", "\u00d7", "\u002B", "\u2212", "\u003d"};
         for (int i = 0; i < 5; i++) {
             CalcButton func = new FuncButton(funccmd[i]);
             func.addActionListener(this);
             addComponents(func, 3, i + 2, 1, 1);
         }
-        String controlcmd[] = {"AC", "+/-", "%"};
+        String controlcmd[] = {"AC", "+/-", "\u0025"};
         for (int i = 0; i < 3; i++) {
             CalcButton control = new ControlButton(controlcmd[i]);
             control.addActionListener(this);
@@ -118,31 +128,31 @@ public class jOSCalculator extends JFrame implements ActionListener {
         Operator calc = null;
         Double num = 0.0;
         switch (lastButton.getText()) {
-            case "+":
+            case "\u002B": // +
                 calc = stack.push(new Adder(Double.parseDouble(labelNum)));
                 label.setText(String.valueOf(calc.getCalculatedNumber()));
                 calcNum = "0";
                 return;
-            case "-":
+            case "\u2212": // -
                 calc = stack.push(new Subtractor(Double.parseDouble(labelNum)));
                 label.setText(String.valueOf(calc.getCalculatedNumber()));
                 calcNum = "0";
                 return;
-            case "*":
+            case "\u00d7": // *
                 calc = stack.push(new Multiplier(Double.parseDouble(labelNum)));
                 label.setText(String.valueOf(calc.getCalculatedNumber()));
                 calcNum = "0";
                 return;
-            case "/":
+            case "\u00f7": // /
                 calc = stack.push(new Divider(Double.parseDouble(labelNum)));
                 label.setText(String.valueOf(calc.getCalculatedNumber()));
                 calcNum = "0";
                 return;
-            case "=":
+            case "\u003D":
                 label.setText(String.valueOf(stack.calc(Double.parseDouble(labelNum))));
                 calcNum = "0";
                 return;
-            case "%":
+            case "\u0025": // %
                 calcNum = String.valueOf(new Percentage(Double.parseDouble(labelNum)).calc(0.0, stack));
                 label.setText(calcNum);
                 return;
@@ -166,5 +176,41 @@ public class jOSCalculator extends JFrame implements ActionListener {
             calcNum += lastButton.getText();
         label.setText(calcNum);
         System.out.println(stack.size());
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        System.exit(0);
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

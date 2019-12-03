@@ -4,19 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public abstract class CalcButton extends JButton {
     public CalcButton(String text) {
         super(text);
+        System.out.println(getHeight());
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("resources/Helvetica.ttf"));
+            File fontFile = new File(getClass().getClassLoader().getResource("Helvetica.ttf").toURI().toString());
+            Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
             font = font.deriveFont(35F);
             setFont(font);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            setFont(new Font("Arial", Font.PLAIN, 35));
+        } catch (FontFormatException e) {
+            setFont(new Font("Arial", Font.PLAIN, 35));
+        } catch (URISyntaxException e) {
+            setFont(new Font("Arial", Font.PLAIN, 35));
         }
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
+        setPreferredSize(new Dimension(0, 0));
     }
 
     protected abstract void initShape();
@@ -40,6 +48,8 @@ public abstract class CalcButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBackground(new Color(0, 0, 0));
+        System.out.println("Width:" + getWidth()+"\tHeight:"+getHeight());
+        setFont(getFont().deriveFont((float)getHeight()*(float)0.5));
         initShape();
     }
 

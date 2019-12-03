@@ -1,5 +1,6 @@
 package jp.ac.kagoshima_ct.higashi.button;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
@@ -11,6 +12,7 @@ public class ZeroButton extends CalcButton {
         setPressedColor(new Color(38, 38, 39));
         setNormalTextColor(new Color(254, 255, 255));
         setPressedTextColor(new Color(254, 255, 255));
+        setHorizontalAlignment(JButton.LEADING);
     }
 
     @Override
