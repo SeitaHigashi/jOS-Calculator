@@ -3,6 +3,9 @@ package jp.ac.kagoshima_ct.higashi.calculator.operator;
 import jp.ac.kagoshima_ct.higashi.calculator.CalcStack;
 import jp.ac.kagoshima_ct.higashi.calculator.Operator;
 
+/**
+ * パーセント演算子を表します
+ */
 public class Percentage extends Operator {
     public Percentage(double calculatedNumber) {
         super(calculatedNumber);

@@ -34,9 +34,11 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
         this.gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         //setSize(375, 667);
-        setSize(272, 484);
+        setSize(350, 667);
+        //setSize(272, 484);
         initDisplay();
         initButton();
+        setResizable(false);
         setVisible(true);
     }
 
@@ -89,6 +91,10 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
             CalcButton func = new FuncButton(funccmd[i]);
             func.addActionListener(this);
             addComponents(func, 3, i + 2, 1, 1);
+            if(i == 4) {
+                func.setPressedColor(new Color(249, 142, 15));
+                func.setPressedTextColor(new Color(254, 255, 255));
+            }
         }
         String controlcmd[] = {"AC", "+/-", "\u0025"};
         for (int i = 0; i < 3; i++) {

@@ -3,6 +3,9 @@ package jp.ac.kagoshima_ct.higashi.calculator.operator;
 import jp.ac.kagoshima_ct.higashi.calculator.CalcStack;
 import jp.ac.kagoshima_ct.higashi.calculator.Operator;
 
+/**
+ * 乗算演算子を表します
+ */
 public class Multiplier extends Operator {
     public Multiplier(double calclatedNumber) {
         super(calclatedNumber);

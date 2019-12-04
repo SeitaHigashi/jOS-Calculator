@@ -11,4 +11,10 @@ public class ControlButton extends NumberButton {
         setNormalTextColor(new Color(0, 0, 1));
         setPressedTextColor(new Color(0, 0, 1));
     }
+
+    @Override
+    public void updateUI(){
+        super.updateUI();
+        setFont(getFont().deriveFont((float)getHeight()*(float)0.4));
+    }
 }

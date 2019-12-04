@@ -5,6 +5,11 @@ import java.util.Stack;
 
 public class CalcStack extends Stack<Operator> {
 
+    /**
+     * プッシュするたび計算可能な部分を計算します
+     * @param operator
+     * @return プッシュした演算子を返します
+     */
     @Override
     public Operator push(Operator operator) {
         try {
@@ -23,6 +28,11 @@ public class CalcStack extends Stack<Operator> {
         }
     }
 
+    /**
+     * スタックに残っている演算子を計算します
+     * @param numberOfCalclate
+     * @return 計算結果
+     */
     public double calc(double numberOfCalclate) {
         while (!this.isEmpty()) {
             numberOfCalclate = super.pop().calc(numberOfCalclate, this);
