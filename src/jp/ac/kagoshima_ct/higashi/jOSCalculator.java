@@ -38,6 +38,7 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
         //setSize(272, 484);
         initDisplay();
         initButton();
+        setTitle("jOS Calculator");
         setResizable(false);
         setVisible(true);
     }

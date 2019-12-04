@@ -12,7 +12,14 @@ public class ZeroButton extends CalcButton {
         setPressedColor(new Color(38, 38, 39));
         setNormalTextColor(new Color(254, 255, 255));
         setPressedTextColor(new Color(254, 255, 255));
-        setHorizontalAlignment(JButton.LEADING);
+        setHorizontalAlignment(JButton.CENTER);
+        setMargin(new Insets(0, 0, 0, getWidth()/2));
+    }
+
+    @Override
+    public void updateUI(){
+        super.updateUI();
+        setMargin(new Insets(0, 0, 0, getWidth()/2));
     }
 
     @Override

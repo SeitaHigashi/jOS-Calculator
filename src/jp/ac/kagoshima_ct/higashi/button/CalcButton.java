@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 public abstract class CalcButton extends JButton {
     public CalcButton(String text) {
         super(text);
-        System.out.println(getHeight());
         try {
             File fontFile = new File(getClass().getClassLoader().getResource("Helvetica.ttf").toURI().toString());
             Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
@@ -48,7 +47,6 @@ public abstract class CalcButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBackground(new Color(0, 0, 0));
-        System.out.println("Width:" + getWidth()+"\tHeight:"+getHeight());
         setFont(getFont().deriveFont((float)getHeight()*(float)0.5));
         initShape();
     }
