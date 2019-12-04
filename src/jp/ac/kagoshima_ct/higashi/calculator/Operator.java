@@ -51,4 +51,13 @@ public abstract class Operator {
     public Operator(double calculatedNumber) {
         this.calculatedNumber = calculatedNumber;
     }
+
+    @Override
+    public String toString(){
+        return this.toString("operator");
+    }
+
+    protected String toString(String operator){
+       return String.valueOf(calculatedNumber)  + " " +operator+ " ";
+    }
 }

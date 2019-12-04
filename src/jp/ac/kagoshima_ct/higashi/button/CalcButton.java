@@ -130,5 +130,4 @@ public abstract class CalcButton extends JButton {
         this.pressedTextColor = color;
     }
 
-
 }

@@ -16,4 +16,9 @@ public class Subtractor extends Operator {
     public double calc(double numberOfCalclate, CalcStack stack) {
         return this.calculatedNumber - numberOfCalclate;
     }
+
+    @Override
+    public String toString(){
+        return super.toString("-");
+    }
 }

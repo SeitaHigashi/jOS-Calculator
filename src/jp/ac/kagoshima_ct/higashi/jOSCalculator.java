@@ -27,15 +27,16 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
 
     private String calcNum;
 
+    private boolean numButtonPressed;
+
     public jOSCalculator() {
+        numButtonPressed = false;
         stack = new CalcStack();
         stack.push(new Multiplier(1.0));
         calcNum = "0";
         this.gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
-        //setSize(375, 667);
         setSize(350, 667);
-        //setSize(272, 484);
         initDisplay();
         initButton();
         setTitle("jOS Calculator");
@@ -48,14 +49,7 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
         try {
             File fontFile = new File(getClass().getClassLoader().getResource("Helvetica.ttf").toURI().toString());
             font = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-            //font = font.deriveFont(getHeight()/1);
-        } catch (FontFormatException e) {
-            e.getStackTrace();
-            font = new Font("Arial", Font.PLAIN, 60);
-        } catch (IOException e) {
-            e.getStackTrace();
-            font = new Font("Arial", Font.PLAIN, 60);
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             e.getStackTrace();
             font = new Font("Arial", Font.PLAIN, 60);
         }
@@ -125,6 +119,7 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //System.out.println(stack.toString());
         try {
             if (lastButton != e.getSource())
                 lastButton.anotherButtonWasPressed();
@@ -134,6 +129,9 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
         String labelNum = label.getText();
         Operator calc = null;
         Double num = 0.0;
+        if(lastButton instanceof FuncButton && !lastButton.getText().equals("\u003d") && !numButtonPressed){
+            stack = stack.undo();
+        }
         switch (lastButton.getText()) {
             case "\u002B": // +
                 calc = stack.push(new Adder(Double.parseDouble(labelNum)));
@@ -176,13 +174,17 @@ public class jOSCalculator extends JFrame implements ActionListener , WindowList
                 label.setText(calcNum);
                 return;
         }
+        if(lastButton instanceof NumberButton || lastButton instanceof ZeroButton)
+            numButtonPressed = true;
+        else
+            numButtonPressed = false;
         if (calcNum.equals("0") && !lastButton.getText().equals("."))
             calcNum = lastButton.getText();
         else if (calcNum.matches("\\d*\\.\\d*") && lastButton.getText().equals(".")) ;
         else
             calcNum += lastButton.getText();
         label.setText(calcNum);
-        System.out.println(stack.size());
+        //System.out.println(stack.size());
     }
 
     @Override
